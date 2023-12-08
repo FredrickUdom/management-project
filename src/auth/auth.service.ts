@@ -4,10 +4,13 @@ import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { signupDto } from '../dto/signup.dto';
 import * as bcrypt from 'bcrypt';
+import { loginDto } from 'src/dto/login.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-    constructor(@InjectRepository(User) private readonly authRepo:Repository<User>){}
+   
+    constructor(@InjectRepository(User) private readonly authRepo:Repository<User>, private jwtService:JwtService){}
 
     async signUp(payload:signupDto){
         const { email, password, ...rest}=payload;
@@ -25,7 +28,24 @@ export class AuthService {
         return saveUser;
     }
 
-    async signin(){
+    async signIn(payload:loginDto){
+        const {email, password}=payload;
+
+        const user = await this.authRepo.findOne({where:{email:email}});
+        if(!user){
+            throw new HttpException('No email found', 400)
+        }
+
+        if(!await bcrypt.compare(password, user.password)){
+            throw new HttpException('sorry password not exist', 400)
+        }
+
+        const jwtPayload = {id:user.id, email:user.email}
+        const jwtToken = await this.jwtService.signAsync(jwtPayload);
+
         
+
+        return {token: jwtToken};
     }
+
 }
