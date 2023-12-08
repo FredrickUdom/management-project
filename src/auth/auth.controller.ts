@@ -25,7 +25,9 @@ export class AuthController {
             maxAge: 1 * 60 * 60 * 24
         });
         return res.send({
+            statusCode: 201,
             success: true,
+            
             userToken: token
         
         })
