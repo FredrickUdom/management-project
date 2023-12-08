@@ -33,11 +33,11 @@ export class AuthService {
 
         const user = await this.authRepo.findOne({where:{email:email}});
         if(!user){
-            throw new HttpException('No email found', 400)
+            throw new HttpException('invalid credentials', 400);
         }
 
         if(!await bcrypt.compare(password, user.password)){
-            throw new HttpException('sorry password not exist', 400)
+            throw new HttpException('invalid  credentials', 400);
         }
 
         const jwtPayload = {id:user.id, email:user.email}
