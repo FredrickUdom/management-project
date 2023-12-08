@@ -10,7 +10,7 @@ export class AuthService {
     constructor(@InjectRepository(User) private readonly authRepo:Repository<User>){}
 
     async signUp(payload:signupDto){
-        const {firstName, lastName, middleName, email, password}=payload;
+        const { email, password, ...rest}=payload;
 
         const user = await this.authRepo.findOne({where:{email}});
         if(user){
@@ -19,9 +19,13 @@ export class AuthService {
 
         const hashPassword = await bcrypt.hash(password, 12);
 
-        const saveUser = await this.authRepo.save({firstName, lastName, middleName, email, password:hashPassword});
+        const saveUser = await this.authRepo.save({ email, password:hashPassword, ...rest});
 
         delete saveUser.password;
         return saveUser;
+    }
+
+    async signin(){
+        
     }
 }
