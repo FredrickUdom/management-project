@@ -8,7 +8,7 @@ import { Response } from 'express';
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService:AuthService){}
-    @Post()
+    @Post('signup')
     async signUp(@Body()payload:signupDto){
         return await this.authService.signUp(payload)
     }
