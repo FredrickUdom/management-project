@@ -15,11 +15,12 @@ export class AuthController {
 
 
     @Post('login')
-    async login(@Body()payload:loginDto, @Res({passthrough:true})res:Response){
+    async login(@Body()payload:loginDto, @Res()res:Response){
 
-        const token = await this.authService.signIn(payload);
+     
+            const token = await this.authService.signIn(payload);
         // res.cookie('isAuthenticated', true, {maxAge: 2 * 60 * 60 * 100});
-        res.cookie('Authenticated', token, {
+        res.cookie('User isAuthenticated', token, {
             httpOnly: true,
             maxAge: 1 * 60 * 60 * 24
         });
@@ -28,5 +29,7 @@ export class AuthController {
             userToken: token
         
         })
+       
+        
 }
 }

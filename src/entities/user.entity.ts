@@ -10,7 +10,7 @@ export class User extends Base{
     @Column()
     lastName: string;
 
-    @Column()
+    @Column({default:''})
     middleName?: string
 
     @Column({
