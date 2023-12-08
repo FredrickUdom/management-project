@@ -1,4 +1,5 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator";
+import { Roles } from "../enum/role";
 
 export class signupDto{
     @IsNotEmpty()
@@ -27,4 +28,6 @@ export class signupDto{
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/, {message: 'password must contain atleast One Uppercase, One number and One special key'})
     password: string;
 
+    @IsOptional()
+    role:Roles
 }
