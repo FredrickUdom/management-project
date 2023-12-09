@@ -22,8 +22,12 @@ import { PassportModule } from '@nestjs/passport';
       }),
       inject: [ConfigService],
     }),
-    PassportModule.register({
-      defaultStrategy: 'jwt'
+    
+    PassportModule.registerAsync({
+      useFactory: async (configService: ConfigService) => ({
+        defaultStrategy: configService.getOrThrow<string>('JWT_NAME')
+      }),
+      inject: [ConfigService],
     }),
 
   ],
