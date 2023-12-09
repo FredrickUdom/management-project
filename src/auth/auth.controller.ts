@@ -27,7 +27,6 @@ export class AuthController {
         return res.send({
             statusCode: 201,
             success: true,
-            
             userToken: token
         
         })

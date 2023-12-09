@@ -29,7 +29,7 @@ export class AuthService {
     }
 
     async signIn(payload:loginDto){
-        const {email, password}=payload;
+        const {email, password}=payload; //destructuring of data
 
         const user = await this.authRepo.findOne({where:{email:email}});
         if(!user){
